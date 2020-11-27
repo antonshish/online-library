@@ -1,7 +1,6 @@
 package ru.homeproject.library.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +22,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan("ru.homeproject.library")
-@PropertySource("")
+@PropertySource("classpath:persistence.properties")
 public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -36,7 +35,7 @@ public class AppConfig implements WebMvcConfigurer {
 
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         try{
-            dataSource.setDriverClass("com.mysql.jdbc.Driver");
+            dataSource.setDriverClass(env.getProperty("jdbc.driver"));
         }catch (PropertyVetoException e) {
             throw new RuntimeException(e);
         }
