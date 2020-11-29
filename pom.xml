@@ -7,13 +7,13 @@
     <groupId>org.example</groupId>
     <artifactId>OnlineLibrary</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <springframework.version>5.2.9.RELEASE</springframework.version>
         <hibernate.version>5.4.23.Final</hibernate.version>
         <mysql.connector.version>5.1.45</mysql.connector.version>
         <c3po.version>0.9.5.2</c3po.version>
-
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -36,6 +36,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.3.4.RELEASE</version>
         </dependency>
 
         <!-- Hibernate -->
@@ -87,6 +93,21 @@
             <version>2.3.1</version>
         </dependency>
 
+        <!-- Junit and spring test-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -95,10 +116,12 @@
             <!-- Builds a Web Application Archive (WAR) file from the project output
                 and its dependencies. -->
             <plugin>
-                <!-- Add Maven coordinates (GAV) for: maven-war-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
 
         </plugins>

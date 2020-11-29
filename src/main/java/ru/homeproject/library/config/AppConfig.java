@@ -10,6 +10,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,7 +29,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan("ru.homeproject.library")
 @PropertySource("classpath:persistence.properties")
-public class AppConfig implements WebMvcConfigurer {
+@EnableScheduling
+public class AppConfig {
 
     @Autowired
     private Environment env;
@@ -67,7 +74,7 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     //create session factory
-    @Bean
+    @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactoryBean() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -77,10 +84,21 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    @Autowired
-    public HibernateTransactionManager txManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager tx = new HibernateTransactionManager();
-        tx.setSessionFactory(sessionFactory);
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(dataSource());
+        factory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        ((HibernateJpaVendorAdapter)vendorAdapter).setShowSql(true);
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setJpaProperties(getHibernateProperties());
+        return factory;
+    }
+
+    @Bean(name = "transactionManager")
+    public JpaTransactionManager tx() {
+        JpaTransactionManager tx = new JpaTransactionManager();
+        tx.setEntityManagerFactory(entityManagerFactory().getNativeEntityManagerFactory());
         return tx;
     }
 }

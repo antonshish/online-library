@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 
-public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 
     //метод содержит кофигурации. которые описывают beans
