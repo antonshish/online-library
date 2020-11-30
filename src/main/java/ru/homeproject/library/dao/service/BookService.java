@@ -2,12 +2,18 @@ package ru.homeproject.library.dao.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Service;
 import ru.homeproject.library.dao.BookDao;
 import ru.homeproject.library.dao.repository.BookRepository;
 import ru.homeproject.library.domain.Book;
 
-import java.util.List;
+import java.util.Optional;
 
+@Service
+@EnableJpaRepositories
 public class BookService implements BookDao {
 
     @Autowired
@@ -15,12 +21,16 @@ public class BookService implements BookDao {
 
     @Override
     public Book getBookById(Long id) {
+        Optional<Book> searchResult = bookRepository.findById(id);
+        if(searchResult.isPresent())
+            return searchResult.get();
         return null;
     }
 
     @Override
     public Page<Book> getAllBooks(int page, int pageSize) {
-        return null;
+
+        return bookRepository.findAllWithoutContent(PageRequest.of(page, pageSize, Sort.by("title")));
     }
 
     @Override
@@ -34,13 +44,15 @@ public class BookService implements BookDao {
     }
 
     @Override
-    public List<Book> searchBooksByKeY(String keyWord) {
-        return null;
+    public Page<Book> searchBooksByKey(int page, int pageSize,String keyWord) {
+
+        return bookRepository.findByTitleContainingIgnoreCase(keyWord,
+                PageRequest.of(page, pageSize, Sort.by("title")));
     }
 
     @Override
     public byte[] getContent(Long id) {
-        return new byte[0];
+        return bookRepository.getContent(id);
     }
 
     @Override
@@ -50,6 +62,14 @@ public class BookService implements BookDao {
 
     @Override
     public void saveBook(Book book) {
+        bookRepository.save(book);
+    }
 
+    public BookRepository getBookRepository() {
+        return bookRepository;
+    }
+
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 }

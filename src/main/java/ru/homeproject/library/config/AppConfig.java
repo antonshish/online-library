@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -29,7 +30,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan("ru.homeproject.library")
 @PropertySource("classpath:persistence.properties")
-@EnableScheduling
+@EnableJpaRepositories(basePackages = "ru.homeproject.library.dao.repository")
 public class AppConfig {
 
     @Autowired

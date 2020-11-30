@@ -14,7 +14,7 @@ public interface BookDao {
 
     Page<Book> getBooksByAuthor(int page, int pageSize, Long authorId);
 
-    List<Book> searchBooksByKeY(String keyWord);
+    Page<Book> searchBooksByKey(int page, int pageSize, String keyWord);
 
     byte[] getContent(Long id);
 
