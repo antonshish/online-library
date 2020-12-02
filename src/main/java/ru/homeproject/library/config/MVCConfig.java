@@ -15,7 +15,11 @@ public class MVCConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/WEB-INF/pages/**").addResourceLocations("/pages/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
     }
+
+
 
     @Bean
     public InternalResourceViewResolver setupViewResolver() {

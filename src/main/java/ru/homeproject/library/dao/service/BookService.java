@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.homeproject.library.dao.BookDao;
 import ru.homeproject.library.dao.repository.BookRepository;
 import ru.homeproject.library.domain.Book;
+import ru.homeproject.library.domain.Genre;
 
 import java.util.Optional;
 
@@ -49,6 +50,7 @@ public class BookService implements BookDao {
         return bookRepository.findByTitleContainingIgnoreCase(keyWord,
                 PageRequest.of(page, pageSize, Sort.by("title")));
     }
+
 
     @Override
     public byte[] getContent(Long id) {

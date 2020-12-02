@@ -22,6 +22,19 @@ public class Author {
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "author")
     private List<Book> books;
 
+    public Author(Long id, String fullName) {
+        this.id = id;
+        this.fullName = fullName;
+    }
+
+    public Author(Long id, String fullName, Date birthday) {
+        this.id = id;
+        this.fullName = fullName;
+        this.birthday = birthday;
+    }
+
+    public Author() {
+    }
 
     public Long getId() {
         return id;
@@ -54,4 +67,6 @@ public class Author {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
+
 }

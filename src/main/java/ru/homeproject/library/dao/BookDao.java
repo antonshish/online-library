@@ -2,6 +2,7 @@ package ru.homeproject.library.dao;
 
 import org.springframework.data.domain.Page;
 import ru.homeproject.library.domain.Book;
+import ru.homeproject.library.domain.Genre;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public interface BookDao {
     void deleteBook(Long id);
 
     void saveBook(Book book);
+
 
 }
 
