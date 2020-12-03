@@ -3,6 +3,7 @@ package ru.homeproject.library.dao.service;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,12 +26,17 @@ public class BookServiceTest {
     private BookService bookService;
 
     @Autowired
+    @Qualifier("genreService")
     private GenreService genreService;
 
-    @Autowired AuthorService authorService;
+    @Autowired
+    @Qualifier("authorService")
+    AuthorService authorService;
 
     @Test
     public void getBookById() {
+        Book book = bookService.getBookById(24L);
+        System.out.println(book.getDescription());
         Page<Genre> page = genreService.getGenres(0, 10);
         List<Genre> list = page.getContent();
 

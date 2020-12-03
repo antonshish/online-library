@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homeproject.library.dao.BookDao;
 import ru.homeproject.library.dao.repository.BookRepository;
 import ru.homeproject.library.domain.Book;
@@ -14,6 +15,7 @@ import ru.homeproject.library.domain.Genre;
 import java.util.Optional;
 
 @Service
+@Transactional
 @EnableJpaRepositories
 public class BookService implements BookDao {
 

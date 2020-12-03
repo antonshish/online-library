@@ -16,33 +16,66 @@ import ru.homeproject.library.domain.Author;
 import ru.homeproject.library.domain.Book;
 import ru.homeproject.library.domain.Genre;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 @Lazy
-public class HelloController {
+public class MainController {
 
     @Autowired
     BookService bookService;
 
     @Autowired
-    GenreService service;
+    GenreService genreService;
 
     @Autowired
     AuthorService authorService;
 
+    @GetMapping("/image")
+    public void getBookImage(@RequestParam("bookId") Long bookId, HttpServletResponse response) {
+        response.setContentType("image/jpeg, image/png");
+        response.setHeader("Cache-Control", "max-age=2628000");
+        Book book = bookService.getBookById(bookId);
+        byte[] bookImage = book.getImage();
+        try(OutputStream out = response.getOutputStream()) {
+            out.write(bookImage);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public String welcome(Model model){
-        Page<Genre> genrePage = service.getGenres(0,10);
+    public String welcomePage(@RequestParam(value = "page",defaultValue = "0") Integer page, Model model){
+
+        addGenresAndAuthors(model);
+
+        Page<Book> bookPage = bookService.getAllBooks(page, 9);
+        List<Book> bookList = bookPage.getContent();
+        model.addAttribute("books", bookList);
+        return "index";
+    }
+
+    private void addGenresAndAuthors(Model model) {
+        Page<Genre> genrePage = genreService.getGenres(0,10);
         List<Genre> genreList = genrePage.getContent();
         model.addAttribute("genres", genreList);
 
-        Page<Author> authorPage = authorService.getAuthors(0,9);
+        Page<Author> authorPage = authorService.getAuthors(0,10);
         List<Author> authorList = authorPage.getContent();
         model.addAttribute("authors", authorList);
+    }
 
-        return "index";
+    @GetMapping("/book")
+    public String bookPage(@RequestParam("bookId") int bookId, Model model) {
+        addGenresAndAuthors(model);
+        Book book = bookService.getBookById((long)bookId);
+        model.addAttribute("book", book);
+        return "productdetail";
     }
 
     @GetMapping("/genre/books")

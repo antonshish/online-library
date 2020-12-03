@@ -27,10 +27,11 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan("ru.homeproject.library")
 @PropertySource("classpath:persistence.properties")
 @EnableJpaRepositories(basePackages = "ru.homeproject.library.dao.repository")
+
 public class AppConfig {
 
     @Autowired

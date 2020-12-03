@@ -5,11 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.homeproject.library.dao.GenreDao;
 import ru.homeproject.library.dao.repository.GenreRepository;
 import ru.homeproject.library.domain.Genre;
 
 @Service
-public class GenreService {
+@Transactional
+public class GenreService implements GenreDao {
 
     @Autowired
     private GenreRepository genreRepository;

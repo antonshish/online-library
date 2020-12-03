@@ -47,7 +47,7 @@ ddsmoothmenu.init({
 <div id="templatemo_wrapper">
 
 	<div id="templatemo_header">
-    	<div id="site_title"><h1><a href="#">Online Library</a></h1></div>
+    	<div id="site_title"><h1><a href="${pageContext.request.contextPath}/">Online Library</a></h1></div>
         <div id="header_right">
 
         	<p>
@@ -64,7 +64,7 @@ ddsmoothmenu.init({
     <div id="templatemo_menubar">
     	<div id="top_nav" class="ddsmoothmenu">
             <ul>
-                <li><a href="/" class="selected">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/" class="selected">Home</a></li>
             </ul>
             <br style="clear: left" />
         </div>
@@ -99,7 +99,7 @@ ddsmoothmenu.init({
                 </div>
             </div>
 
-            <!-- !!!! -->
+
             <div class="sidebar_box"><span class="bottom"></span>
             	<h3>Авторы </h3>
                 <div class="content">
@@ -137,86 +137,39 @@ ddsmoothmenu.init({
             </script>
 
         	<h1>Коллекция книг</h1>
-            <c:forEach var="tempBook" items="${authors}" varStatus="counter">
+            <c:forEach var="tempBook" items="${books}" varStatus="counter">
+                <c:url var="findImage" value="/image">
+                    <c:param name="bookId" value="${tempBook.id}"/>
+                </c:url>
+                <c:url var="getBook" value="/book">
+                    <c:param name="bookId" value="${tempBook.id}"/>
+                </c:url>
                 <c:choose>
                     <c:when test="${counter.count % 3 > 0}">
                         <div class="product_box">
-                            <h3>Ut eu feugiat</h3>
-                            <a href="productdetail.jsp"><img src="images/product/01.jpg" alt="Shoes 1" /></a>
-                            <p>Nulla rutrum neque vitae erat condimentum eget malesuada.</p>
-                            <p class="product_price">$ 100</p>
-                            <a href="shoppingcart.html" class="addtocart"></a>
-                            <a href="productdetail.jsp" class="detail"></a>
+                            <h3>${tempBook.title}</h3>
+                            <a href="${getBook}"><img src="${findImage}" alt="${tempBook.title}" width="176" height="272" /></a>
+                            <p>Описание</p>
+                            <!-- <p class="product_price">$ 100</p> -->
+                            <!-- <a href="shoppingcart.html" class="addtocart"></a> -->
+                            <a href="${getBook}" class="detail"></a>
                         </div>
                     </c:when>
                     <c:otherwise>
                         <div class="product_box no_margin_right">
-                            <h3>Mauris consectetur</h3>
-                            <a href="productdetail.jsp"><img src="images/product/03.jpg" alt="Shoes 3" /></a>
-                            <p>Morbi non risus vitae est vestibulum tincidunt ac eget metus.</p>
-                            <p class="product_price">$ 60</p>
-                            <a href="shoppingcart.html" class="addtocart"></a>
-                            <a href="productdetail.jsp" class="detail"></a>
+                            <h3>${tempBook.title}</h3>
+                            <a href="${getBook}"><img src="${findImage}" alt="${tempBook.title}" width="176" height="272" /></a>
+                            <p>Описание</p>
+                            <!-- <p class="product_price">$ 60</p> -->
+                            <!-- <a href="shoppingcart.html" class="addtocart"></a> -->
+                            <a href="${getBook}" class="detail"></a>
                         </div>
                         <div class="cleaner"></div>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
         </div>
-            <!--
-            <div class="product_box">
-	            <h3>Ut eu feugiat</h3>
-            	<a href="productdetail.jsp"><img src="images/product/01.jpg" alt="Shoes 1" /></a>
-                <p>Nulla rutrum neque vitae erat condimentum eget malesuada.</p>
-                <p class="product_price">$ 100</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>        	
-            <div class="product_box">
-            	<h3>Curabitur et turpis</h3>
-            	<a href="productdetail.jsp"><img src="images/product/02.jpg" alt="Shoes 2" /></a>
-                <p>Sed congue, erat id congue vehicula. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</p>
-              <p class="product_price">$ 80</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>        	
-            <div class="product_box no_margin_right">
-            	<h3>Mauris consectetur</h3>
-            	<a href="productdetail.jsp"><img src="images/product/03.jpg" alt="Shoes 3" /></a>
-                <p>Morbi non risus vitae est vestibulum tincidunt ac eget metus.</p>
-              <p class="product_price">$ 60</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>   
-            
-            <div class="cleaner"></div>
-                 	
-            <div class="product_box">
-            	<h3>Proin volutpat</h3>
-           	<a href="productdetail.jsp"><img src="images/product/04.jpg" alt="Shoes 4" /></a>
-            <p>Sed semper euismod dolor sit amet interdum. Phasellus in mi eros.</p>
-      <p class="product_price">$ 220</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>        	
-            <div class="product_box">
-	            <h3>Aenean tempus</h3>
-            	<a href="productdetail.jsp"><img src="images/product/05.jpg" alt="Shoes 5" /></a>
-                <p>Maecenas porttitor erat quis leo pellentesque molestie.</p>
-              <p class="product_price">$ 180</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>        	
-            <div class="product_box no_margin_right">
-            	<h3>Nulla luctus urna</h3>
-            	<a href="productdetail.jsp"><img src="images/product/06.jpg" alt="Shoes 6" /></a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p class="product_price">$ 160</p>
-                <a href="shoppingcart.html" class="addtocart"></a>
-                <a href="productdetail.jsp" class="detail"></a>
-            </div>        	
-        </div>
-        -->
+
         <div class="cleaner"></div>
 
     </div>

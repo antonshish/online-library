@@ -5,11 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.homeproject.library.dao.AuthorDao;
 import ru.homeproject.library.dao.repository.AuthorRepository;
 import ru.homeproject.library.domain.Author;
 
 @Service
-public class AuthorService  {
+@Transactional
+public class AuthorService implements AuthorDao {
 
     @Autowired
     AuthorRepository repository;
