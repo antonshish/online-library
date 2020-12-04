@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -6,18 +7,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Online Library</title>
+<title>Book Store - Products</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
-
 <link href="${pageContext.request.contextPath}/css/templatemo_style.css" rel="stylesheet" type="text/css" />
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/nivo-slider.css" type="text/css" media="screen" />
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/ddsmoothmenu.css" />
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/ddsmoothmenu.js">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/ddsmoothmenu.js">
 
 /***********************************************
 * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -49,59 +47,53 @@ ddsmoothmenu.init({
 	<div id="templatemo_header">
     	<div id="site_title"><h1><a href="${pageContext.request.contextPath}/">Online Library</a></h1></div>
         <div id="header_right">
-
         	<p>
-                   .
-            </p>
-
+	        .
             <p>
-                       .             <a href="#">My Account</a>  | <a href="#">Log In</a>
+            <a href="#">My Account</a>  | <a href="#">Log In</a></p>
 			</p>
 		</div>
         <div class="cleaner"></div>
-    </div> <!-- END of templatemo_header -->
+    </div>
+
+    <!-- END of templatemo_header -->
     
     <div id="templatemo_menubar">
     	<div id="top_nav" class="ddsmoothmenu">
             <ul>
-                <li><a href="${pageContext.request.contextPath}/" class="selected">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/">Home</a></li>
             </ul>
             <br style="clear: left" />
-        </div>
 
-        <!-- end of ddsmoothmenu -->
+        </div> <!-- end of ddsmoothmenu -->
 
-    <!-- !!!!! -->
         <div id="templatemo_search">
             <form action="${pageContext.request.contextPath}/search" method="get">
-              <input type="text" value="" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-              <input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn"  />
+                <input type="text" value="" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
+                <input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn"  />
             </form>
         </div>
-    </div>
-
-    <!-- END of templatemo_menubar -->
+    </div> <!-- END of templatemo_menubar -->
     
     <div id="templatemo_main">
-    	<div id="sidebar" class="float_l">
-        	<div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Жанры</h3>
+        <div id="sidebar" class="float_l">
+            <div class="sidebar_box"><span class="bottom"></span>
+                <h3>Жанры</h3>
                 <div class="content">
                     <ul class="sidebar_list">
-                    <c:forEach var="tempGenre" items="${genres}">
-                        <c:url var="findByGenre" value="/search">
-                            <c:param name="genreId" value="${tempGenre.id}"/>
-                        </c:url>
-                        <li class="first"><a href="${findByGenre}">${tempGenre.name}</a></li>
-                    </c:forEach>
+                        <c:forEach var="tempGenre" items="${genres}">
+                            <c:url var="findByGenre" value="/search">
+                                <c:param name="genreId" value="${tempGenre.id}"/>
+                            </c:url>
+                            <li class="first"><a href="${findByGenre}">${tempGenre.name}</a></li>
+                        </c:forEach>
                         <li class="last"><a href="#">Все жанры</a></li>
                     </ul>
                 </div>
             </div>
 
-
             <div class="sidebar_box"><span class="bottom"></span>
-            	<h3>Авторы </h3>
+                <h3>Авторы </h3>
                 <div class="content">
                     <ul class="sidebar_list">
                         <c:forEach var="tempAuthor" items="${authors}">
@@ -117,26 +109,7 @@ ddsmoothmenu.init({
         </div>
 
         <div id="content" class="float_r">
-        	<div id="slider-wrapper">
-                <div id="slider" class="nivoSlider">
-                    <img src="images/slider/02.jpg" alt="" />
-                    <a href="#"><img src="images/slider/01.jpg" alt="" title="This is an example of a caption" /></a>
-                    <img src="images/slider/03.jpg" alt="" />
-                    <img src="images/slider/04.jpg" alt="" title="#htmlcaption" />
-                </div>
-                <div id="htmlcaption" class="nivo-html-caption">
-                    <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
-                </div>
-            </div>
-            <script type="text/javascript" src="js/jquery-1.4.3.min.js"></script>
-            <script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
-            <script type="text/javascript">
-            $(window).load(function() {
-                $('#slider').nivoSlider();
-            });
-            </script>
-
-        	<h1>Коллекция книг</h1>
+        	<h1> Книги по запросу:</h1>
             <c:forEach var="tempBook" items="${books}" varStatus="counter">
                 <c:url var="findImage" value="/image">
                     <c:param name="bookId" value="${tempBook.id}"/>
@@ -168,18 +141,18 @@ ddsmoothmenu.init({
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-        </div>
 
+        </div> 
         <div class="cleaner"></div>
-
-    </div>
-            <!-- END of templatemo_main -->
+    </div> <!-- END of templatemo_main -->
     
     <div id="templatemo_footer">
     	<p>
 		</p>
 
-    	Copyright © 2072 <a href="#">Your Company Name</a> <!-- Credit: www.templatemo.com --></div> <!-- END of templatemo_footer -->
+
+    	Copyright © 2072 <a href="#">Your Company Name</a>
+    </div> <!-- END of templatemo_footer -->
     
 </div> <!-- END of templatemo_wrapper -->
 </div> <!-- END of templatemo_body_wrapper -->

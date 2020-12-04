@@ -85,7 +85,7 @@ ddsmoothmenu.init({
                 <div class="content">
                     <ul class="sidebar_list">
                         <c:forEach var="tempGenre" items="${genres}">
-                            <c:url var="findByGenre" value="/genre/books">
+                            <c:url var="findByGenre" value="/search">
                                 <c:param name="genreId" value="${tempGenre.id}"/>
                             </c:url>
                             <li class="first"><a href="${findByGenre}">${tempGenre.name}</a></li>
@@ -99,7 +99,7 @@ ddsmoothmenu.init({
                 <div class="content">
                     <ul class="sidebar_list">
                         <c:forEach var="tempAuthor" items="${authors}">
-                            <c:url var="findByAuthor" value="/author/books">
+                            <c:url var="findByAuthor" value="/search">
                                 <c:param name="authorId" value="${tempAuthor.id}"/>
                             </c:url>
                             <li class="first"><a href="${findByAuthor}">${tempAuthor.fullName}</a></li>

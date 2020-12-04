@@ -46,11 +46,10 @@ public class MainController {
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String welcomePage(@RequestParam(value = "page",defaultValue = "0") Integer page, Model model){
+    public String welcomePage(@RequestParam(value = "page", defaultValue = "0") Integer page, Model model){
 
         addGenresAndAuthors(model);
 
@@ -70,19 +69,38 @@ public class MainController {
         model.addAttribute("authors", authorList);
     }
 
-    @GetMapping("/book")
-    public String bookPage(@RequestParam("bookId") int bookId, Model model) {
+    @GetMapping("/search")
+    public String searchPage(@RequestParam(value = "keyword", defaultValue = "none") String keyWord,
+                       @RequestParam(value = "genreId", defaultValue = "-1") long genreId,
+                       @RequestParam(value = "authorId", defaultValue = "-1") long authorId,
+                       Model model){
         addGenresAndAuthors(model);
-        Book book = bookService.getBookById((long)bookId);
+        if(!keyWord.equals("none")) {
+            Page<Book> bookPage = bookService.getBooksByKey(0, 15, keyWord);
+            List<Book> bookList = bookPage.getContent();
+            model.addAttribute("books", bookList);
+        }
+        if(genreId != -1) {
+            Page<Book> bookPage = bookService.getBooksByGenre(0, 15, genreId);
+            List<Book> bookList = bookPage.getContent();
+            model.addAttribute("books", bookList);
+        }
+        if(authorId != -1) {
+            Page<Book> bookPage = bookService.getBooksByAuthor(0, 15, authorId);
+            List<Book> bookList = bookPage.getContent();
+            model.addAttribute("books", bookList);
+        }
+        return "products";
+    }
+    @GetMapping("/book")
+    public String bookPage(@RequestParam("bookId") long bookId, Model model) {
+        addGenresAndAuthors(model);
+        Book book = bookService.getBookById(bookId);
+
         model.addAttribute("book", book);
         return "productdetail";
     }
 
-    @GetMapping("/genre/books")
-    public String test(@RequestParam("genreId") int genreId, Model model){
-
-        return "productdetail";
-    }
 
     @GetMapping("/author/books")
     public String test1(@RequestParam("authorId") int genreId, Model model){

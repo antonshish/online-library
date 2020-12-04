@@ -38,16 +38,16 @@ public class BookService implements BookDao {
 
     @Override
     public Page<Book> getBooksByGenre(int page, int pageSize, Long genreId) {
-        return null;
+        return bookRepository.findByGenreId(genreId, PageRequest.of(page, pageSize, Sort.by("title")));
     }
 
     @Override
     public Page<Book> getBooksByAuthor(int page, int pageSize, Long authorId) {
-        return null;
+        return bookRepository.findByAuthorId(authorId, PageRequest.of(page, pageSize, Sort.by("title")));
     }
 
     @Override
-    public Page<Book> searchBooksByKey(int page, int pageSize,String keyWord) {
+    public Page<Book> getBooksByKey(int page, int pageSize, String keyWord) {
 
         return bookRepository.findByTitleContainingIgnoreCase(keyWord,
                 PageRequest.of(page, pageSize, Sort.by("title")));
