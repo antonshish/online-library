@@ -141,8 +141,11 @@ ddsmoothmenu.init({
                     </tr> -->
                 </table>
                 <div class="cleaner h20"></div>
+                <c:url var="findBookContent" value="/showBook">
+                    <c:param name="bookId" value="${book.id}"/>
+                </c:url>
 
-                <a href="shoppingcart.html" class="addtocart"></a>
+                <a href="${findBookContent}" class="addtocart"></a>
 
 			</div>
             <div class="cleaner h30"></div>

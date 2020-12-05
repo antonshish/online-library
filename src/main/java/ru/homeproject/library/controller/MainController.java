@@ -3,6 +3,7 @@ package ru.homeproject.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,18 @@ public class MainController {
         byte[] bookImage = book.getImage();
         try(OutputStream out = response.getOutputStream()) {
             out.write(bookImage);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/showBook")
+    public void getBookContent(@RequestParam("bookId") Long bookId, HttpServletResponse response) {
+        response.setContentType("application/pdf");
+        response.setHeader("Cache-Control", "post-check=0");
+        Book book = bookService.getBookById(bookId);
+        byte[] bookContent = book.getContent();
+        try(OutputStream out = response.getOutputStream()) {
+            out.write(bookContent);
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
